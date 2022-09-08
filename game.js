@@ -123,7 +123,7 @@ function startGame() {
 
 function movePlayer(){
     game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y );
-    console.log(gifPosition, playerPosition)
+    //console.log(gifPosition, playerPosition)
     const gitCollitionX = playerPosition.x.toFixed(3) == gifPosition.x.toFixed(3);
     const gitCollitionY = playerPosition.y.toFixed(3) == gifPosition.y.toFixed(3);
     const gitCollition = gitCollitionX && gitCollitionY; 
@@ -146,22 +146,21 @@ function levelWin(){
 }
 
 function liveLost(){
-    console.log('Chocaste con enemigo');
+    //console.log('Chocaste con enemigo');
     lives --;
     playerPosition.x = undefined;
     playerPosition.y = undefined;
     if (lives == 0){
         continuar = false;
-        lives = 3;
+        //lives = 3;
         level = 0;
         gameLost();
-        
     }
     startGame();
 }
 
 function gameWin(){
-    pResult.innerHTML = "Ganaste el Juego, sigue intentando para mejorar tu record";
+    pResult.innerHTML = "Ganaste, sigue intentando para mejorar tu record";
     clearInterval(timeInterval);
     if(!localStorage.getItem('record') || timeRecord < localStorage.getItem('record')){
         localStorage.setItem('record', timeRecord)
@@ -173,6 +172,7 @@ function gameWin(){
 function gameLost(){
     pResult.innerHTML = "PERDISTE EL JUEGO 😢, Intentalo de nuevo";
     clearInterval(timeInterval);
+    showLives();
     //setTimeout(showMessage, 2000);
     timeStart = undefined;
 }
@@ -203,6 +203,8 @@ function moveByKeys(event){
     else if (event.key == "ArrowDown") moveDown();
     else if (event.key == "ArrowRight") moveRight();
     else if (event.key == "ArrowLeft") moveLeft();
+    else if (event.key == "Enter") reStart();
+    else if (event.key == "d") delRecord();
 }
 function moveUp(){
     playerPosition.y = Math.max(elementSize, playerPosition.y - elementSize)
@@ -226,4 +228,5 @@ function reStart(){
 function delRecord(){
     localStorage.removeItem("record");
     record.innerHTML = "";
+    pResult.innerHTML = "";
 }
